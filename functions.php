@@ -163,6 +163,40 @@ if ( ! function_exists( 'bkshp_site_title' ) ) {
         
 }
 
+/*  Social links
+/* ------------------------------------ */
+if ( ! function_exists( 'bkshp_social_links' ) ) {
+
+        function bkshp_social_links() {
+                if ( !ot_get_option('social-links') =='' ) {
+                        $links = ot_get_option('social-links', array());
+                        if ( !empty( $links ) ) {
+                                echo '<ul class="social-links">';       
+                                foreach( $links as $item ) {
+                                        
+                                        // Build each separate html-section only if set
+                                        if ( isset($item['title']) && !empty($item['title']) ) 
+                                                { $title = 'title="' .$item['title']. '"'; } else $title = '';
+                                        if ( isset($item['social-link']) && !empty($item['social-link']) ) 
+                                                { $link = 'href="' .$item['social-link']. '"'; } else $link = '';
+                                        if ( isset($item['social-target']) && !empty($item['social-target']) ) 
+                                                { $target = 'target="' .$item['social-target']. '"'; } else $target = '';
+                                        if ( isset($item['social-icon']) && !empty($item['social-icon']) ) 
+                                                { $icon = 'class="fa ' .$item['social-icon']. '"'; } else $icon = '';
+                                        if ( isset($item['social-color']) && !empty($item['social-color']) ) 
+                                                { $color = 'style="color: ' .$item['social-color']. ';"'; } else $color = '';
+                                        
+                                        // Put them together
+                                        if ( isset($item['title']) && !empty($item['title']) && isset($item['social-icon']) && !empty($item['social-icon']) && ($item['social-icon'] !='fa-') ) {
+                                                echo '<li><a rel="nofollow" class="social-tooltip" '.$title.' '.$link.' '.$target.'><i '.$icon.' '.$color.'></i></a></li>';
+                                        }
+                                }
+                                echo '</ul>';
+                        }
+                }
+        }
+        
+}
 remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
 remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
 add_action('woocommerce_before_main_content', 'my_theme_wrapper_start', 10);

@@ -48,12 +48,23 @@ function bookshop_setup() {
 	 *
 	 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
 	 */
-	//add_theme_support( 'post-thumbnails' );
+	add_theme_support( 'post-thumbnails' );
+
+        // Declare WooCommerce support
+        add_theme_support( 'woocommerce' );
 
 	// This theme uses wp_nav_menu() in one location.
-	register_nav_menus( array(
-		'primary' => __( 'Primary Menu', 'bookshop' ),
-	) );
+	//register_nav_menus( array(
+	//	'primary' => __( 'Primary Menu', 'bookshop' ),
+	//) );
+
+                // Custom menu areas
+                register_nav_menus( array(
+                        'topbar' => 'Topbar',
+                        'header' => 'Header',
+                        'footer' => 'Footer',
+                ) );
+
 
 	// Enable support for Post Formats.
 	add_theme_support( 'post-formats', array( 'aside', 'image', 'video', 'quote', 'link' ) );
@@ -125,6 +136,32 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+/*  Site name/logo
+/* ------------------------------------ */
+if ( ! function_exists( 'bkshp_site_title' ) ) {
+
+        function bkshp_site_title() {
+        
+                // Text or image?
+                if ( ot_get_option('custom-logo') ) {
+                        $logo = '<img src="'.ot_get_option('custom-logo').'" alt="'.get_bloginfo('name').'">';
+                } else {
+                        $logo = get_bloginfo('name');
+                }
+                
+                $link = '<a href="'.home_url('/').'" rel="home">'.$logo.'</a>';
+                
+                if ( is_front_page() || is_home() ) {
+                        $sitename = '<h1 class="site-title">'.$link.'</h1>'."\n";
+                } else {
+                        $sitename = '<p class="site-title">'.$link.'</p>'."\n";
+                }
+                
+                return $sitename;
+        }
+        
+}
 
 remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
 remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);

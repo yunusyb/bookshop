@@ -5,6 +5,16 @@
  * @package bookshop
  */
 
+
+/* ------------------------------------------------------------------------- *
+ *  OptionTree framework integration: Use in theme mode
+/* ------------------------------------------------------------------------- */
+        
+        add_filter( 'ot_show_pages', '__return_false' );
+        add_filter( 'ot_show_new_layout', '__return_false' );
+        add_filter( 'ot_theme_mode', '__return_true' );
+        load_template( get_template_directory() . '/option-tree/ot-loader.php' );
+
 /**
  * Set the content width based on the theme's design and stylesheet.
  */
